@@ -1,7 +1,6 @@
 // Script.js
-
 let cart;
-
+let cartcount = document.getElementById('cart-count');
 window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem("URLData") == null){
     fetch('https://fakestoreapi.com/products')
@@ -12,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
     //console.log("Already have store products")
   }
   let data = JSON.parse(localStorage.getItem("URLdata"));
-  if(localStorage.getItem("Cart" != null)){
+  if(localStorage.getItem("Cart") != null){
     cart = new Set(JSON.parse(localStorage.getItem("Cart")));
   }else{
     cart = new Set();
@@ -26,16 +25,16 @@ window.addEventListener('DOMContentLoaded', () => {
     pitem.setAttribute('title', element.title);
     pitem.setAttribute('price', element.price);
     pitem.setAttribute('data-cartid', element.id);
-    if(cart.has(element.id)){
+    if(cart.has(element.id + "")){
       pitem.changeButtonText("Remove from Cart");
     }
     plist.appendChild(pitem);
   }
+  cartcount.innerHTML = cart.size;
 });
 
 
 function productButtonClick(button, cartid) {
-  let cartcount = document.getElementById('cart-count');
   //console.log(button.innerHTML);
   if(button.innerHTML === "Add to Cart"){
     alert("Added to Cart!");
